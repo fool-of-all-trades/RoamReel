@@ -58,4 +58,24 @@ class ReelsRepository extends Repository {
         return $reels->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getReelIdByVideoNameAndUserId(string $videoName, int $userId): ?int {
+        $stmt = $this->database->connect()->prepare('
+            SELECT id FROM reels WHERE user_id = ? AND video_name = ? LIMIT 1
+        ');
+        $stmt->execute([$userId, $videoName]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ? (int)$row['id'] : null;
+    }
+
+    public function getReelById(int $reelId): ?array {
+        $stmt = $this->database->connect()->prepare('
+            SELECT id, video_name, thumbnail_name, created_at, country
+            FROM reels
+            WHERE id = ?
+            LIMIT 1
+        ');
+        $stmt->execute([$reelId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row ?: null;
+    }
 }
