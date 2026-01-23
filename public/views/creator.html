@@ -1,68 +1,140 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="public/styles/main.css">
-    <link rel="stylesheet" type="text/css" href="public/styles/creator.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="public/styles/main.css" />
+    <link rel="stylesheet" type="text/css" href="public/styles/creator.css" />
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="dashboard">
-    <div class="main-panel">
+      <div class="main-panel">
         <div id="creating-panel">
-            <div id="selection-panel">
-                <label for="country-select">Select a country:</label>
-                <select id="country-select" name="country">
-                    <?php foreach($countries as $country): ?>
-                        <option value="<?= htmlspecialchars($country['name']); ?>">
-                            <?= htmlspecialchars($country['name']); ?>
-                        </option> <?php endforeach; ?>
-                </select>
-                <label for="date-select">Select date:</label>
-                <input type="date" id="date-select" name="date-select" class="input-date">
-            </div>
-            <div id="drop-zone">
-                <svg id="upload-icon" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-images" viewBox="0 0 16 16">
-                    <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
-                    <path d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/>
-                </svg>
-            </div>
-            <input type="file" id="file-input" multiple accept=".jpg, .jpeg, .png, image/jpeg, image/png" style="display:none;">
+          <div id="selection-panel">
+            <label for="country-select">Select a country:</label>
+            <select id="country-select" name="country">
+              <?php foreach($countries as $country): ?>
+              <option value="<?= htmlspecialchars($country['name']); ?>">
+                <?= htmlspecialchars($country['name']); ?>
+              </option>
+              <?php endforeach; ?>
+            </select>
+            <label for="date-select">Select date:</label>
+            <input
+              type="date"
+              id="date-select"
+              name="date-select"
+              class="input-date"
+            />
+          </div>
+          <div id="drop-zone">
+            <svg
+              id="upload-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="100"
+              height="100"
+              fill="currentColor"
+              class="bi bi-images"
+              viewBox="0 0 16 16"
+            >
+              <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
+              <path
+                d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"
+              />
+            </svg>
+          </div>
+          <input
+            type="file"
+            id="file-input"
+            multiple
+            accept=".jpg, .jpeg, .png, image/jpeg, image/png"
+            style="display: none"
+          />
         </div>
         <div id="bottom-panel">
-            <p>Photos uploaded: 0/30</p>
-            <?php if(isset($message)): ?>
-            <p class="message">
-                <?= $message; ?>
-            </p>
-             <?php endif; ?>
-            <button type='submit' class="button btn-generate">Generate Reel</button>
-        </div>
-        </div>
-        <div class="side-panel">
-            <button type="button" onclick="window.location.href='/profile'">
-                <svg class=buttons xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-                </svg>
+          <p>Photos uploaded: 0/30</p>
+          <?php if(isset($message)): ?>
+          <p class="message"><?= $message; ?></p>
+          <?php endif; ?>
+
+          <label for="music-input">Add music (optional):</label>
+          <input
+            type="file"
+            id="music-input"
+            accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg"
+          />
+
+          <div id="music-preview" style="display: none; margin-top: 8px">
+            <span id="music-filename"></span>
+            <button
+              type="button"
+              id="remove-music"
+              class="button"
+              style="margin-left: 8px"
+            >
+              Remove
             </button>
-            <button type="button" onclick="window.location.href='/dashboard'">
-                <svg class=buttons xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
-                   <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
-                </svg>
-            </button>
-            <form action="/logout" method="POST" style="display: inline;">
-                <button type="submit" class="button btn-logout">
-                    <svg class=buttons xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
-                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
-                    </svg>
-                </button>
-            </form>
+          </div>
+
+          <button type="submit" class="button btn-generate">
+            Generate Reel
+          </button>
         </div>
+      </div>
+      <div class="side-panel">
+        <button type="button" onclick="window.location.href = '/profile'">
+          <svg
+            class="buttons"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            class="bi bi-person-circle"
+            viewBox="0 0 16 16"
+          >
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+            <path
+              fill-rule="evenodd"
+              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+            />
+          </svg>
+        </button>
+        <button type="button" onclick="window.location.href = '/dashboard'">
+          <svg
+            class="buttons"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            class="bi bi-map"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"
+            />
+          </svg>
+        </button>
+        <form action="/logout" method="POST" style="display: inline">
+          <button type="submit" class="button btn-logout">
+            <svg
+              class="buttons"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              class="bi bi-box-arrow-right"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
+              />
+            </svg>
+          </button>
+        </form>
+      </div>
     </div>
 
-<script src="public/scripts/creator.js"></script>
-</body>
+    <script src="public/scripts/creator.js"></script>
+  </body>
+</html>

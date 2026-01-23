@@ -91,6 +91,33 @@ class CreatorController extends AppController {
                 throw new Exception("Błąd zapisu plików na serwerze.", 500);
             }
 
+            // Upload muzyki (opcjonalnie)
+            $audioPath = null;
+
+            if (isset($_FILES['music']) && $_FILES['music']['error'] !== UPLOAD_ERR_NO_FILE) {
+
+                if ($_FILES['music']['error'] !== UPLOAD_ERR_OK) {
+                    throw new Exception("Błąd przesyłania pliku muzycznego.", 400);
+                }
+
+                // limit rozmiaru 20MB
+                $maxBytes = 20 * 1024 * 1024;
+                if ($_FILES['music']['size'] > $maxBytes) {
+                    throw new Exception("Plik muzyczny jest za duży (max 20MB).", 400);
+                }
+
+                $ext = strtolower(pathinfo($_FILES['music']['name'], PATHINFO_EXTENSION));
+
+                // zapisujemy w temp obok zdjęć
+                $audioFileName = 'music_' . time() . '.' . $ext;
+                $audioPath = $uploaddir . $audioFileName;
+
+                if (!move_uploaded_file($_FILES['music']['tmp_name'], $audioPath)) {
+                    throw new Exception("Nie udało się zapisać pliku muzycznego na serwerze.", 500);
+                }
+            }
+
+
             // Python - Generowanie wideo
             $timestamp = time();
             $videoName = 'reel_' . $timestamp . '.mp4';
@@ -102,7 +129,6 @@ class CreatorController extends AppController {
             // Ścieżki relatywne do bazy danych
             $dbVideoPath = 'media/' . $username . '/' . $videoName;
             $dbThumbPath = 'media/' . $username . '/' . $thumbName;
-
             
             // Generowanie miniatury z pierwszego zdjęcia
             $firstImage = $uploaddir . 'img_000.jpg';
@@ -116,8 +142,21 @@ class CreatorController extends AppController {
 
             $pythonScript = __DIR__ . '/../services/video_maker.py';
             
-            $command = "python3 " . escapeshellarg($pythonScript) . " " . escapeshellarg($uploaddir) . " " . escapeshellarg($fullVideoPath) . " " . escapeshellarg($fullThumbPath) . " 2>&1";
+            $args = [
+                "python3",
+                escapeshellarg($pythonScript),
+                escapeshellarg($uploaddir),
+                escapeshellarg($fullVideoPath),
+                escapeshellarg($fullThumbPath)
+            ];
+
+            if ($audioPath !== null) {
+                $args[] = escapeshellarg($audioPath);
+            }
+
+            $command = implode(' ', $args) . " 2>&1";
             $pythonOutput = shell_exec($command);
+
 
             if (!file_exists($fullVideoPath)) {
                 throw new Exception("Skrypt Python nie wygenerował pliku. Output: " . $pythonOutput, 500);
@@ -134,11 +173,12 @@ class CreatorController extends AppController {
             ob_clean();
             http_response_code(200);
             echo json_encode([
-                'status' => 'success', 
-                'videoPath' => $dbVideoPath,
-                'thumbnailPath' => $finalThumbDbPath
+            'status' => 'success',
+            'videoPath' => $dbVideoPath,
+            'thumbnailPath' => $finalThumbDbPath,
+            'pythonOutput' => $pythonOutput,
+            'audioProvided' => $audioPath !== null
             ]);
-
         } catch (Exception $e) {
             // Błąd - czysty JSON + kod HTTP
             ob_clean();

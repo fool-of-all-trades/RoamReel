@@ -9,6 +9,10 @@ Konto administratora
 
 *Zmiana koloru kraju w zależnosci od wycieczek
 
+muzyczka
+udostępnianie
+Test@domain.pl Test@domain.pl
+
 
 DOKUMENTACJA W README.ME	
 DIAGRAM ERD		
