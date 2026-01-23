@@ -159,6 +159,29 @@ button {
   font-family: "Montserrat", sans-serif;
 }
 
+.share-btn {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #6f55ff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
+
+.share-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.share-status {
+  margin-top: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  color: #222;
+}
+
 @media screen and (max-width: 800px) {
   #countryGallery {
     left: auto;
