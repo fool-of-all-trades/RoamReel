@@ -57,7 +57,15 @@ class Routing {
         'getVisitedCountries' => [
             'controller' => 'MapDashboardController',
             'action' => 'getVisitedCountries'
-        ]
+        ],
+        'createShareLink' => [
+            'controller' => 'ReelController',
+            'action' => 'createShareLink'
+        ],
+        'share' => [
+            'controller' => 'ReelController',
+            'action' => 'share'
+        ],
     ];
 
     public static function run(string $path) {
