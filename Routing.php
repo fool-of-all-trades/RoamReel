@@ -53,6 +53,10 @@ class Routing {
         'getCountryReels' => [
             'controller' => 'MapDashboardController',
             'action' => 'getCountryReels'
+        ],
+        'getVisitedCountries' => [
+            'controller' => 'MapDashboardController',
+            'action' => 'getVisitedCountries'
         ]
     ];
 
