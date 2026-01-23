@@ -136,6 +136,11 @@ class SecurityController extends AppController {
             return $this->render('register', ['message' => 'Passwords do not match']);
         }
 
+        $passErr = $this->validatePasswordStrength($password, $username, $email);
+        if ($passErr !== null) {
+            return $this->render('register', ['message' => $passErr]);
+        }
+
         $clientToken = $_POST['csrf'] ?? '';
         $serverToken = $_SESSION['csrf'] ?? '';
 
@@ -149,7 +154,7 @@ class SecurityController extends AppController {
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return $this->render('register', ['messages' => 'Invalid email format']);
+            return $this->render('register', ['message' => 'Invalid email format']);
         }
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
@@ -162,6 +167,46 @@ class SecurityController extends AppController {
 
         return $this->render('login', ['message' => 'Registration successful! You can log in now.']);
     }
+
+    private function validatePasswordStrength(string $password, string $username, string $email): ?string
+    {
+        $minLen = 8;
+
+        if (strlen($password) < $minLen) {
+            return "Password must be at least {$minLen} characters long.";
+        }
+
+        // mała + duża + cyfra + znak specjalny
+        if (!preg_match('/[a-z]/', $password)) {
+            return "Password must include a lowercase letter.";
+        }
+        if (!preg_match('/[A-Z]/', $password)) {
+            return "Password must include an uppercase letter.";
+        }
+        if (!preg_match('/\d/', $password)) {
+            return "Password must include a number.";
+        }
+        if (!preg_match('/[^a-zA-Z0-9]/', $password)) {
+            return "Password must include a special character.";
+        }
+
+        // Nie może zawierać username/email
+        $u = mb_strtolower($username);
+        $e = mb_strtolower($email);
+        $p = mb_strtolower($password);
+
+        if ($u !== '' && strpos($p, $u) !== false) {
+            return "Password should not contain your username.";
+        }
+
+        $emailLocal = explode('@', $e)[0] ?? '';
+        if ($emailLocal !== '' && strlen($emailLocal) >= 3 && strpos($p, $emailLocal) !== false) {
+            return "Password should not contain parts of your email.";
+        }
+
+        return null;
+    }
+
 
     public function logout() {
         session_start();
