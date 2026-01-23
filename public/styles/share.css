@@ -1,0 +1,20 @@
+body {
+  background: #111;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+}
+.wrap {
+  width: min(900px, 96vw);
+  padding: 16px;
+}
+video {
+  width: 100%;
+  border-radius: 12px;
+  background: #000;
+}
+.meta {
+  margin: 10px 0 16px;
+  opacity: 0.85;
+  font-family: sans-serif;
+}

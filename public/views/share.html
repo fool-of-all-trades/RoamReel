@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/public/styles/main.css" />
+    <link rel="stylesheet" type="text/css" href="/public/styles/share.css" />
+    <title>Shared reel</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="meta">
+        <div>
+          <b><?= htmlspecialchars($country ?? ''); ?></b>
+        </div>
+        <div><?= htmlspecialchars($createdAt ?? ''); ?></div>
+      </div>
+
+      <video
+        controls
+        playsinline
+        poster="<?= htmlspecialchars($thumbUrl ?? ''); ?>"
+      >
+        <source src="/<?= htmlspecialchars($videoUrl); ?>" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </body>
+</html>
