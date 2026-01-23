@@ -2,14 +2,12 @@ Edytor reelsa + routing:
     - zmiana kraju, daty
     - usuń
 
-Pierwszy widok - login a nie 404
 Wymagania formatu hasła
 Naprawa widoków (reel, kreator, profil, mapa)
 Konto administratora
 
 *Zmiana koloru kraju w zależnosci od wycieczek
 
-muzyczka
 udostępnianie
 Test@domain.pl Test@domain.pl
 

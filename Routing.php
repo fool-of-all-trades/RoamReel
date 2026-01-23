@@ -10,6 +10,10 @@ class Routing {
 
     //sesja uzytkownika
     public static $routing = [
+        '' => [
+            'controller' => 'MapDashboardController',
+            'action' => 'index'
+        ],
         'login' => [
             'controller' => 'SecurityController',
             'action' => 'login'
