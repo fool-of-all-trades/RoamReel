@@ -106,7 +106,41 @@ class CreatorController extends AppController {
                     throw new Exception("Plik muzyczny jest za duży (max 20MB).", 400);
                 }
 
+                // prosta walidacja MIME dla bezpieczeństwa
+                $allowedMime = [
+                    'audio/mpeg',
+                    'audio/mp3',
+                    'audio/wav',
+                    'audio/x-wav',
+                    'audio/mp4',
+                    'audio/aac',
+                    'audio/ogg',
+                    'application/ogg',
+                    'audio/webm'
+                ];
+
+                $finfo = new finfo(FILEINFO_MIME_TYPE);
+                $mime = $finfo->file($_FILES['music']['tmp_name']);
+
+                if (!in_array($mime, $allowedMime, true)) {
+                    throw new Exception("Nieobsługiwany format muzyki: {$mime}", 400);
+                }
+
+                // rozszerzenie z nazwy (fallback jeśli MIME nie zmapuje)
                 $ext = strtolower(pathinfo($_FILES['music']['name'], PATHINFO_EXTENSION));
+                if ($ext === '') {
+                    $mimeToExt = [
+                        'audio/mpeg' => 'mp3',
+                        'audio/mp4'  => 'm4a',
+                        'audio/wav'  => 'wav',
+                        'audio/x-wav'=> 'wav',
+                        'audio/aac'  => 'aac',
+                        'audio/ogg'  => 'ogg',
+                        'application/ogg' => 'ogg',
+                        'audio/webm' => 'webm'
+                    ];
+                    $ext = $mimeToExt[$mime] ?? 'audio';
+                }
 
                 // zapisujemy w temp obok zdjęć
                 $audioFileName = 'music_' . time() . '.' . $ext;
