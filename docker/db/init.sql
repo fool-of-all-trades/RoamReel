@@ -23,6 +23,18 @@ CREATE TABLE reels (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE reel_shares (
+  id SERIAL PRIMARY KEY,
+  reel_id INT NOT NULL REFERENCES reels(id) ON DELETE CASCADE,
+  token VARCHAR(64) NOT NULL UNIQUE,
+  is_active BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  expires_at TIMESTAMP NULL
+);
+
+CREATE INDEX idx_reel_shares_reel_id ON reel_shares(reel_id);
+CREATE INDEX idx_reel_shares_token ON reel_shares(token);
+
 -- Europa
 INSERT INTO countries (name) VALUES
 ('Albania'), ('Andorra'), ('Austria'), ('Belarus'),
