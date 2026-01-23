@@ -36,10 +36,77 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalVideo = document.getElementById("modalVideoPlayer");
   const closeModalBtn = document.getElementById("closeModal");
 
+  const shareBtn = document.getElementById("shareBtn");
+  const shareStatus = document.getElementById("shareStatus");
+  let currentVideoSrc = null;
+
   function openVideoModal(videoSrc) {
+    currentVideoSrc = videoSrc;
     modalVideo.src = videoSrc;
     modal.classList.add("active");
+    if (shareStatus) shareStatus.textContent = "";
+    if (shareBtn) shareBtn.disabled = false;
     modalVideo.play().catch((e) => console.log("Autoplay blocked:", e));
+  }
+
+  async function copyToClipboard(text) {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    // fallback
+    const el = document.createElement("textarea");
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+  }
+
+  if (shareBtn) {
+    shareBtn.addEventListener("click", async () => {
+      if (!currentVideoSrc) return;
+
+      shareBtn.disabled = true;
+      if (shareStatus) shareStatus.textContent = "Tworzę link...";
+
+      try {
+        const fd = new FormData();
+        fd.append("videoPath", currentVideoSrc);
+
+        const res = await fetch("/createShareLink", {
+          method: "POST",
+          body: fd,
+        });
+        const data = await res.json().catch(() => null);
+
+        if (!res.ok || !data || data.status !== "success") {
+          if (shareStatus)
+            shareStatus.textContent = "Nie udało się utworzyć linku.";
+          shareBtn.disabled = false;
+          return;
+        }
+
+        const url = data.url;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: "My reel", url });
+            if (shareStatus) shareStatus.textContent = "Udostępniono ✅";
+          } catch (e) {
+            // user anulował
+            if (shareStatus) shareStatus.textContent = "";
+          }
+        } else {
+          await copyToClipboard(url);
+          if (shareStatus) shareStatus.textContent = "Link skopiowany ✅";
+        }
+      } catch (e) {
+        if (shareStatus) shareStatus.textContent = "Błąd sieci.";
+      } finally {
+        shareBtn.disabled = false;
+      }
+    });
   }
 
   function closeVideoModal() {

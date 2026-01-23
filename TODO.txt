@@ -5,9 +5,6 @@ Edytor reelsa + routing:
 Naprawa widoków (reel, kreator, profil, mapa)
 Konto administratora
 
-udostępnianie
-Test@domain.pl Test@domain.pl
-
 
 DOKUMENTACJA W README.ME	
 DIAGRAM ERD		

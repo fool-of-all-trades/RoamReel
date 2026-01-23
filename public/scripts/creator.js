@@ -203,7 +203,7 @@ generateBtn.addEventListener("click", async () => {
       displayMessage("Success! Redirecting...");
       setTimeout(() => {
         window.location.href = "/dashboard";
-      }, 200000);
+      }, 2000);
     } else {
       displayMessage(result?.message || "Error generating reel.");
       generateBtn.innerText = "Generate Reel";
