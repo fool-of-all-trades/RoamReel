@@ -1,97 +1,118 @@
 * {
-    box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 body {
-    font-family: 'Montserrat', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    background-color: #292654;
-    display: flex;
-    flex-direction: column;
+  font-family: "Montserrat", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: #292654;
+  display: flex;
+  flex-direction: column;
 }
 
 .message {
-    color: rgb(255, 78, 78);
-    font-size: 1rem;
-    text-align: center;
-    margin-bottom: 0.5rem;
+  color: rgb(255, 78, 78);
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
 .side-panel {
-    background-color:  rgb(224, 224, 224);
-    width: 6vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    flex-direction: column;
-    gap: 20vh;
-    position: absolute;
-    right: 0;
-    top: 0;
+  background-color: rgb(224, 224, 224);
+  width: 6vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 20vh;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .dashboard {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 
 .buttons {
-    cursor: pointer;
-    fill: #333333;
-    width: 5vw;
+  cursor: pointer;
+  fill: #333333;
+  width: 5vw;
 }
 
 .buttons:hover {
-    filter: drop-shadow(0 0 5px #adadad);
-    transform: scale(1.1);
+  filter: drop-shadow(0 0 5px #adadad);
+  transform: scale(1.1);
 }
 
 button {
-  background: none;     
-  border: none;        
-  outline: none;             
-  padding: 0.5rem;       
-  display: flex;         
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0.5rem;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.share-btn {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: #6f55ff;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+}
 
+.share-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.share-status {
+  margin-top: 6px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  color: #d30000;
+}
 
 @media screen and (max-width: 800px) {
-    .side-panel {
-        height: 10vh; 
-        width: 100%;    
-        flex-direction: row;
-        gap: 15vw;      
-        left: 0;
-        top: 0;
-        padding: 0;  
-        justify-content: center;
-        align-items: center;           
-    }
+  .side-panel {
+    height: 10vh;
+    width: 100%;
+    flex-direction: row;
+    gap: 15vw;
+    left: 0;
+    top: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .buttons {
-        width: 15vw;   
-        height: auto;  
-    }
+  .buttons {
+    width: 15vw;
+    height: auto;
+  }
 
-    .side-panel form {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+  .side-panel form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .side-panel form .buttons{
-        width: 17vw;   
-        height: auto;  
-    }
+  .side-panel form .buttons {
+    width: 17vw;
+    height: auto;
+  }
 }

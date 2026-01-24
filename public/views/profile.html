@@ -1,132 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="public/styles/main.css">
-    <link rel="stylesheet" type="text/css" href="public/styles/profile.css">
-    <link rel="stylesheet" type="text/css" href="public/styles/reelPreview.css">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="public/styles/main.css" />
+    <link rel="stylesheet" type="text/css" href="public/styles/profile.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="public/styles/reelPreview.css"
+    />
+  </head>
 
-<body>
+  <body>
     <div class="dashboard">
-        <div id="user-panel">
-            
-            <div class="profile-nav">
-                <button id="btn-stats" class="nav-btn active">Info</button>
-                <button id="btn-timeline" class="nav-btn">Journal</button>
+      <div id="user-panel">
+        <div class="profile-nav">
+          <button id="btn-stats" class="nav-btn active">Info</button>
+          <button id="btn-timeline" class="nav-btn">Journal</button>
+        </div>
+
+        <div id="stats-section" class="content-section">
+          <div class="profile-wrapper">
+            <div id="profile-picture">
+              <?php if (isset($pfpPath) && !empty($pfpPath)): ?>
+              <img
+                src="<?= $pfpPath ?>?v=<?= time() ?>"
+                alt="Profile Picture"
+                id="current-pfp-img"
+                style="
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  border-radius: 50%;
+                "
+              />
+              <?php else: ?>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="100"
+                height="100"
+                fill="currentColor"
+                class="bi bi-camera"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z"
+                />
+                <path
+                  d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"
+                />
+              </svg>
+              <?php endif; ?>
             </div>
-
-            <div id="stats-section" class="content-section">
-                
-                <div class="profile-wrapper">
-                    <div id="profile-picture">
-                        <?php 
-                            if (isset($pfpPath) && !empty($pfpPath)): ?> 
-                        <img src="<?= $pfpPath ?>?v=<?= time() ?>" alt="Profile Picture" id="current-pfp-img" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-                        <?php else: ?>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">
-                            <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z"/>
-                            <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5m0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7M3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0"/>
-                        </svg>
-                        <?php endif; ?>
-                    </div>
-                    <div id="edit-icon">
-                       <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
-                       </svg>
-                       <input type="file" id="pfp-upload-input" accept="image/* .jpg, .jpeg, .png, image/jpeg, image/png" style="display: none;">
-                    </div>
-                </div>
-                
-                <?php if(isset($username)): ?>
-                <p class="username">
-                    <?= $username; ?>
-                </p>
-                 <?php endif; ?>
-
-                <div class="stats">
-                    <div class="stat">
-                        <p class="stat-label">Trips: </p>
-                        <p class="stat-number" id="trip-count"><?= $reelsCount ?? 0; ?></p>
-                    </div>
-                    <div class="stat">
-                        <p class="stat-label">Places Visited: </p>
-                        <p class="stat-number" id="places-count"><?= $placesCount ?? 0; ?></p>
-                    </div>
-                </div>
+            <div id="edit-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill="currentColor"
+                class="bi bi-pencil"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"
+                />
+              </svg>
+              <input
+                type="file"
+                id="pfp-upload-input"
+                accept="image/* .jpg, .jpeg, .png, image/jpeg, image/png"
+                style="display: none"
+              />
             </div>
+          </div>
 
-            <div id="timeline-section" class="content-section hidden">
-                <div id="timeline">
-                    <div id="trips">
-                        <?php if (empty($reels)): ?>
-                            <p id="no-trips">No trips added</p>
-                        
-                        <?php else: ?>
-                            <?php foreach ($reels as $dateKey => $monthReels): ?>
-                                
-                                <div class="date-separator">
-                                    <span><?= $dateKey; ?></span>
-                                </div>
+          <?php if(isset($username)): ?>
+          <p class="username"><?= $username; ?></p>
+          <?php endif; ?>
 
-                                <div class="trips-grid">
-                                    <?php foreach ($monthReels as $reel): ?>
+          <div class="stats">
+            <div class="stat">
+              <p class="stat-label">Trips:</p>
+              <p class="stat-number" id="trip-count">
+                <?= $reelsCount ?? 0; ?>
+              </p>
+            </div>
+            <div class="stat">
+              <p class="stat-label">Places Visited:</p>
+              <p class="stat-number" id="places-count">
+                <?= $placesCount ?? 0; ?>
+              </p>
+            </div>
+          </div>
+        </div>
 
-                                        <div class="trip-card" data-video-src="<?= htmlspecialchars($reel['video_name'] ?? ''); ?>">
-                                            <img src="<?= htmlspecialchars($reel['thumbnail_name']); ?>" alt="Trip thumbnail">
-                                            <div class="trip-info">
-                                                <?php if (!empty($reel['country'])): ?>
-                                                    <span class="trip-country"><?= htmlspecialchars($reel['country']); ?></span>
-                                                <?php endif; ?>
-  
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
+        <div id="timeline-section" class="content-section hidden">
+          <div id="timeline">
+            <div id="trips">
+              <?php if (empty($reels)): ?>
+              <p id="no-trips">No trips added</p>
 
-                            <?php endforeach; ?>
+              <?php else: ?> <?php foreach ($reels as $dateKey => $monthReels):
+              ?>
+
+              <div class="date-separator">
+                <span><?= $dateKey; ?></span>
+              </div>
+
+              <div class="trips-grid">
+                <?php foreach ($monthReels as $reel): ?>
+
+                <div
+                  class="trip-card"
+                  data-video-src="<?= htmlspecialchars($reel['video_name'] ?? ''); ?>"
+                >
+                  <img
+                    src="<?= htmlspecialchars($reel['thumbnail_name']); ?>"
+                    alt="Trip thumbnail"
+                  />
+                  <div class="trip-info">
+                    <?php if (!empty($reel['country'])): ?>
+                    <span class="trip-country"
+                      ><?= htmlspecialchars($reel['country']); ?></span
+                    >
                     <?php endif; ?>
-
-
-                    </div>
+                  </div>
                 </div>
-            </div>
-        </div>
+                <?php endforeach; ?>
+              </div>
 
-        <div class="side-panel">
-            <button type="button" onclick="window.location.href='/dashboard'">
-                <svg class=buttons xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-map" viewBox="0 0 16 16">
-                   <path fill-rule="evenodd" d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"/>
-                </svg>
-            </button>
-             <button type="button" onclick="window.location.href='/creator'">
-                <svg class=buttons xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
-                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
-                </svg>
-            </button>
-            <form action="/logout" method="POST" style="display: inline;">
-                <button type="submit" class="button btn-logout">
-                    <svg class=buttons xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
-                        <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
-                    </svg>
-                </button>
-            </form>
+              <?php endforeach; ?> <?php endif; ?>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <div class="side-panel">
+        <button type="button" onclick="window.location.href = '/dashboard'">
+          <svg
+            class="buttons"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            class="bi bi-map"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M15.817.113A.5.5 0 0 1 16 .5v14a.5.5 0 0 1-.402.49l-5 1a.5.5 0 0 1-.196 0L5.5 15.01l-4.902.98A.5.5 0 0 1 0 15.5v-14a.5.5 0 0 1 .402-.49l5-1a.5.5 0 0 1 .196 0L10.5.99l4.902-.98a.5.5 0 0 1 .415.103M10 1.91l-4-.8v12.98l4 .8zm1 12.98 4-.8V1.11l-4 .8zm-6-.8V1.11l-4 .8v12.98z"
+            />
+          </svg>
+        </button>
+        <button type="button" onclick="window.location.href = '/creator'">
+          <svg
+            class="buttons"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            class="bi bi-plus-square"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"
+            />
+            <path
+              d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
+            />
+          </svg>
+        </button>
+        <form action="/logout" method="POST" style="display: inline">
+          <button type="submit" class="button btn-logout">
+            <svg
+              class="buttons"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              class="bi bi-box-arrow-right"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"
+              />
+              <path
+                fill-rule="evenodd"
+                d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"
+              />
+            </svg>
+          </button>
+        </form>
+      </div>
     </div>
 
-<div id="videoModal" class="modal-overlay">
-    <div class="modal-content">
+    <div id="videoModal" class="modal-overlay">
+      <div class="modal-content">
         <button id="closeModal" class="close-modal-btn">&times;</button>
         <video id="modalVideoPlayer" controls>
-            <source src="" type="video/mp4">
-            Your browser does not support the video tag.
+          <source src="" type="video/mp4" />
+          Your browser does not support the video tag.
         </video>
+        <button id="shareBtn" class="share-btn" type="button">
+          Udostępnij
+        </button>
+        <p id="shareStatus" class="share-status"></p>
+      </div>
     </div>
-</div>
 
-<script src="public/scripts/profile.js"></script>
-</body>
+    <script src="public/scripts/profile.js"></script>
+  </body>
 </html>
