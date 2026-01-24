@@ -93,8 +93,15 @@ class SecurityController extends AppController {
 
         $_SESSION['user_id'] = $userRow['id'];
         $_SESSION['username'] = $userRow['username'];
+        $_SESSION['role'] = $userRow['role'];
 
         error_log("zalogowano $email");
+
+        if ($userRow['role'] === 1) { //admin
+            $url = "http://$_SERVER[HTTP_HOST]";
+            header("Location: {$url}/adminPanel");
+            exit();
+        }
                                                                              
         $url = "http://$_SERVER[HTTP_HOST]";
         header("Location: {$url}/dashboard");

@@ -1,13 +1,27 @@
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) UNIQUE NOT NULL
+);
+
+INSERT INTO roles (name) VALUES
+('admin'),
+('user');
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    profile_picture VARCHAR(255)
+    profile_picture VARCHAR(255),
+    role INTEGER REFERENCES roles(id) DEFAULT 2
 );
 
 INSERT INTO users (username, email, password) VALUES
 ('testuser', 'test@test.pl', '$2y$10$Bq3M0CXba81qm7jhr1kVgOqee09RpSZY4zcSBdkjiYJvkS5STrerO')
+ON CONFLICT (email) DO NOTHING;
+
+INSERT INTO users (username, email, password, role) VALUES
+('admin', 'admin@test.pl', '$2y$10$Bq3M0CXba81qm7jhr1kVgOqee09RpSZY4zcSBdkjiYJvkS5STrerO', 1)
 ON CONFLICT (email) DO NOTHING;
 
 CREATE TABLE countries (

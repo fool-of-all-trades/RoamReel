@@ -1,6 +1,7 @@
 <?php
 
 require_once 'src/controllers/SecurityController.php';
+require_once 'src/controllers/AdminController.php';
 require_once 'src/controllers/MapDashboardController.php';
 require_once 'src/controllers/CreatorController.php';
 require_once 'src/controllers/ProfileController.php';
@@ -65,6 +66,21 @@ class Routing {
         'share' => [
             'controller' => 'ReelController',
             'action' => 'share'
+        ],
+
+
+        //Admin
+        'adminPanel' => [
+            'controller' => 'AdminController',
+            'action' => 'adminPanel'
+        ],
+        'deleteUser' => [
+            'controller' => 'AdminController',
+            'action' => 'deleteUser'
+        ],
+        'updateUser' => [
+            'controller' => 'AdminController',
+            'action' => 'updateUser'
         ],
     ];
 

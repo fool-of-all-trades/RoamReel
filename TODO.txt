@@ -3,20 +3,3 @@ Edytor reelsa + routing:
     - usuń
 
 Naprawa widoków (reel, kreator, profil, mapa)
-Konto administratora
-
-
-DOKUMENTACJA W README.ME	
-DIAGRAM ERD		
-POSTGRESQL	
-ZŁOŻONOŚĆ BAZY DANYCH	
-EKSPORT BAZY DO PLIKU .SQL		
-FETCH API (AJAX)	
-DESIGN	
-RESPONSYWNOŚĆ		
-UPRAWNIENIA UŻYTKOWNIKÓW	
-ROLE UŻYTKOWNIKÓW - CO NAJMNIEJ DWIE	
-WIDOKI, WYZWALACZE, FUNKCJE, TRANSAKCJE	
-AKCJE NA REFERENCJACH	
-BEZPIECZEŃSTWO	
-BRAK REPLIKACJI KODU !!!!! - na razie jest replikacja w widokach
