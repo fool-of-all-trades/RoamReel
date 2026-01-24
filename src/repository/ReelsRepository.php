@@ -32,9 +32,25 @@ class ReelsRepository extends Repository {
         ]);
     }
 
+    public function deleteReel(int $reelId): void {
+        $reel = $this->database->connect()->prepare('
+            DELETE FROM reels WHERE id = ?
+        ');
+        $reel->execute([$reelId]);
+    }
+
+    public function updateReel(int $id, string $country, string $date, int $userId) {
+        $reel = $this->database->connect()->prepare('
+            UPDATE reels SET country = ?, created_at = ? WHERE id = ? AND user_id = ?
+        ');
+        $reel->execute([$country, $date, $id, $userId]);
+    }
+
     public function getReelsByUserId(int $userId) {
         $reels = $this->database->connect()->prepare('
-            SELECT thumbnail_name, created_at, country, video_name FROM reels WHERE user_id = ?
+            SELECT id, thumbnail_name, created_at, country, video_name 
+            FROM reels 
+            WHERE user_id = ?
             ORDER BY created_at DESC
         ');
         $reels->execute([$userId]);
@@ -69,7 +85,7 @@ class ReelsRepository extends Repository {
 
     public function getReelById(int $reelId): ?array {
         $stmt = $this->database->connect()->prepare('
-            SELECT id, video_name, thumbnail_name, created_at, country
+            SELECT id, user_id, video_name, thumbnail_name, created_at, country
             FROM reels
             WHERE id = ?
             LIMIT 1

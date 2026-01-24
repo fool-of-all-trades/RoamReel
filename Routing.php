@@ -67,6 +67,18 @@ class Routing {
             'controller' => 'ReelController',
             'action' => 'share'
         ],
+        'editReel' => [
+            'controller' => 'ReelController',
+            'action' => 'editReel'
+        ],
+        'deleteReel' => [
+            'controller' => 'ReelController',
+            'action' => 'deleteReel'
+        ],
+        'updateReel' => [
+            'controller' => 'ReelController',
+            'action' => 'updateReel'
+        ],
 
 
         //Admin
