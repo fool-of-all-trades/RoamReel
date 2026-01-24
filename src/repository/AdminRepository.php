@@ -66,9 +66,61 @@ class AdminRepository extends Repository {
     }
 
     public function updateUsername(int $id, string $newUsername) {
-        $stmt = $this->database->connect()->prepare('
-            UPDATE users SET username = ? WHERE id = ?
-        ');
-        $stmt->execute([$newUsername, $id]);
+        $pdo = $this->database->connect();
+        
+        try {
+            // Rozpoczynamy transakcję, żeby wszystko wykonało się naraz albo wcale
+            $pdo->beginTransaction();
+
+            $stmt = $pdo->prepare('SELECT username FROM users WHERE id = ?');
+            $stmt->execute([$id]);
+            $oldUsername = $stmt->fetchColumn();
+
+            if (!$oldUsername) {
+                throw new Exception("Użytkownik nie istnieje");
+            }
+
+            if ($oldUsername === $newUsername) {
+                $pdo->rollBack();
+                return;
+            }
+
+            // zmiana nazwy folderu
+            $baseDir = __DIR__ . '/../../media/'; 
+            
+            $oldDir = $baseDir . $oldUsername;
+            $newDir = $baseDir . $newUsername;
+
+            if (is_dir($oldDir)) {
+                if (!rename($oldDir, $newDir)) {
+                    throw new Exception("Nie udało się zmienić nazwy folderu z plikami.");
+                }
+            }
+
+            // Aktualizacja w tabeli users
+            $stmt = $pdo->prepare('UPDATE users SET username = ? WHERE id = ?');
+            $stmt->execute([$newUsername, $id]);
+
+            // Aktualizacja ścieżek w tabeli reels
+            $stmt = $pdo->prepare("
+                UPDATE reels 
+                SET 
+                    video_name = REPLACE(video_name, :oldPattern, :newPattern),
+                    thumbnail_name = REPLACE(thumbnail_name, :oldPattern, :newPattern)
+                WHERE user_id = :id
+            ");
+
+            $stmt->execute([
+                ':oldPattern' => '/' . $oldUsername . '/',
+                ':newPattern' => '/' . $newUsername . '/',
+                ':id' => $id
+            ]);
+
+            $pdo->commit();
+
+        } catch (Exception $e) {
+            $pdo->rollBack();
+            throw $e;
+        }
     }
 }
