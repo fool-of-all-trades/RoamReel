@@ -331,3 +331,101 @@ p {
 .trip-card {
     position: relative;
 }
+
+@media screen and (max-width: 800px) {
+    body {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto; 
+    }
+
+    #user-panel {
+        width: 100%;
+        height: auto; 
+        padding: 1rem;
+        padding-right: 1rem; 
+        padding-bottom: 80px; 
+        justify-content: flex-start;
+    }
+
+    .profile-wrapper {
+        width: 8rem; 
+        height: 8rem;
+    }
+
+    .stats {
+        gap: 1rem; 
+        width: 100%;
+        justify-content: space-around; 
+    }
+
+    .stat-number {
+        font-size: 1.5rem;
+    }
+
+
+    .profile-nav {
+        width: 100%;
+        gap: 1rem;
+    }
+
+
+    #timeline-section {
+        width: 100%;
+    }
+
+    #timeline {
+        width: 100%;
+        height: auto; 
+        padding: 0;
+        overflow-y: visible; 
+    }
+
+    #trips {
+        width: 100%;
+        height: auto;
+    }
+
+    .trips-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px; 
+        width: 100%;
+        padding-bottom: 0;
+    }
+
+    .trip-card {
+        width: 100%; 
+        height: auto;
+        aspect-ratio: 9 / 16; 
+        max-width: none;
+        max-height: none;
+        border-radius: 0; 
+        box-shadow: none;
+    }
+
+    .trip-info {
+        font-size: 0.7rem; 
+    }
+
+    .modal-content {
+        width: 95%; 
+        max-height: 80vh;
+    }
+    
+    .close-modal-btn {
+        top: -35px;
+        right: 5px;
+        color: white;
+        background: rgba(0,0,0,0.5);
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        font-size: 24px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

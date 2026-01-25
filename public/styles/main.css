@@ -89,7 +89,7 @@ button {
 
 @media screen and (max-width: 800px) {
   .side-panel {
-    height: 10vh;
+    height: 16vh;
     width: 100%;
     flex-direction: row;
     gap: 15vw;
@@ -112,7 +112,7 @@ button {
   }
 
   .side-panel form .buttons {
-    width: 17vw;
+    width: 16vw;
     height: auto;
   }
 }

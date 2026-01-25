@@ -46,7 +46,7 @@ def create_reel(folder_path, output_path, audio_path=None):
         print("Error: Could not process any images")
         return
 
-    fps = 30 / len(processed_files)
+    fps = len(processed_files) / 30 # docelowo 30 sekund wideo
     print("Rendering video...")
     clip = ImageSequenceClip(processed_files, fps=fps)
     

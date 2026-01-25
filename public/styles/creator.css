@@ -132,3 +132,53 @@ p {
     max-height: 100%;
     border-radius: 0.5rem;
 }
+
+
+@media screen and (max-width: 800px) {
+
+    body {
+        justify-content: center; 
+        min-height: 100vh; 
+    }
+
+    #creating-panel {
+        margin-top: 20vh;
+        flex-direction: column; 
+        width: 100%;
+        gap: 1.5rem;
+        padding-bottom: 2rem; 
+    }
+
+    #selection-panel {
+        width: 90%; 
+        gap: 1rem;
+    }
+
+    #selection-panel select,
+    #selection-panel input {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem; 
+        border-radius: 8px;
+    }
+
+    #drop-zone {
+        width: 90vw;
+        height: 30vh; 
+    }
+
+    .video-preview-container {
+        width: 90vw;
+        height: auto;
+        aspect-ratio: 9 / 16; 
+        max-height: 60vh;
+    }
+
+    .btn-generate {
+        width: 100%; 
+        padding: 1rem;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+}
