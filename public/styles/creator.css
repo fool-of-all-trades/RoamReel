@@ -168,10 +168,10 @@ p {
     }
 
     .video-preview-container {
-        width: 90vw;
+        width: 50vw;
         height: auto;
         aspect-ratio: 9 / 16; 
-        max-height: 60vh;
+        max-height: 50vh;
     }
 
     .btn-generate {

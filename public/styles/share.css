@@ -51,3 +51,12 @@ video {
 .cta-btn:hover {
   opacity: 0.92;
 }
+
+@media screen and (max-height: 800px) {
+    video {
+        max-height: 60vh; 
+    }
+    .wrap {
+        padding: 10px;
+    }
+}

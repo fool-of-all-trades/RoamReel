@@ -341,11 +341,11 @@ p {
     }
 
     #user-panel {
+        margin-top: 20vh;
         width: 100%;
         height: auto; 
         padding: 1rem;
         padding-right: 1rem; 
-        padding-bottom: 80px; 
         justify-content: flex-start;
     }
 
@@ -377,36 +377,7 @@ p {
 
     #timeline {
         width: 100%;
-        height: auto; 
         padding: 0;
-        overflow-y: visible; 
-    }
-
-    #trips {
-        width: 100%;
-        height: auto;
-    }
-
-    .trips-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2px; 
-        width: 100%;
-        padding-bottom: 0;
-    }
-
-    .trip-card {
-        width: 100%; 
-        height: auto;
-        aspect-ratio: 9 / 16; 
-        max-width: none;
-        max-height: none;
-        border-radius: 0; 
-        box-shadow: none;
-    }
-
-    .trip-info {
-        font-size: 0.7rem; 
     }
 
     .modal-content {
