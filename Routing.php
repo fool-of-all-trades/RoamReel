@@ -55,18 +55,6 @@ class Routing {
             'controller' => 'MapDashboardController',
             'action' => 'getCountryReels'
         ],
-        'getVisitedCountries' => [
-            'controller' => 'MapDashboardController',
-            'action' => 'getVisitedCountries'
-        ],
-        'createShareLink' => [
-            'controller' => 'ReelController',
-            'action' => 'createShareLink'
-        ],
-        'share' => [
-            'controller' => 'ReelController',
-            'action' => 'share'
-        ],
         'editReel' => [
             'controller' => 'ReelController',
             'action' => 'editReel'
@@ -79,9 +67,7 @@ class Routing {
             'controller' => 'ReelController',
             'action' => 'updateReel'
         ],
-
-
-        //Admin
+         //Admin
         'adminPanel' => [
             'controller' => 'AdminController',
             'action' => 'adminPanel'
@@ -94,6 +80,10 @@ class Routing {
             'controller' => 'AdminController',
             'action' => 'updateUser'
         ],
+        'stats' => [
+            'controller' => 'AdminController',
+            'action' => 'statsApi'
+        ]
     ];
 
     public static function run(string $path) {
