@@ -123,4 +123,15 @@ class AdminRepository extends Repository {
             throw $e;
         }
     }
+
+    public function getCountryStats() {
+    $pdo = $this->database->connect()->prepare('
+        SELECT country_name, percentage_share 
+        FROM v_country_percentages
+        ORDER BY percentage_share DESC
+    ');
+    
+    $pdo->execute();
+    return $pdo->fetchAll(PDO::FETCH_ASSOC);
+}
 }
