@@ -91,67 +91,6 @@ class CreatorController extends AppController {
                 throw new Exception("Błąd zapisu plików na serwerze.", 500);
             }
 
-            // Upload muzyki (opcjonalnie)
-            $audioPath = null;
-
-            if (isset($_FILES['music']) && $_FILES['music']['error'] !== UPLOAD_ERR_NO_FILE) {
-
-                if ($_FILES['music']['error'] !== UPLOAD_ERR_OK) {
-                    throw new Exception("Błąd przesyłania pliku muzycznego.", 400);
-                }
-
-                // limit rozmiaru 20MB
-                $maxBytes = 20 * 1024 * 1024;
-                if ($_FILES['music']['size'] > $maxBytes) {
-                    throw new Exception("Plik muzyczny jest za duży (max 20MB).", 400);
-                }
-
-                // prosta walidacja MIME dla bezpieczeństwa
-                $allowedMime = [
-                    'audio/mpeg',
-                    'audio/mp3',
-                    'audio/wav',
-                    'audio/x-wav',
-                    'audio/mp4',
-                    'audio/aac',
-                    'audio/ogg',
-                    'application/ogg',
-                    'audio/webm'
-                ];
-
-                $finfo = new finfo(FILEINFO_MIME_TYPE);
-                $mime = $finfo->file($_FILES['music']['tmp_name']);
-
-                if (!in_array($mime, $allowedMime, true)) {
-                    throw new Exception("Nieobsługiwany format muzyki: {$mime}", 400);
-                }
-
-                // rozszerzenie z nazwy (fallback jeśli MIME nie zmapuje)
-                $ext = strtolower(pathinfo($_FILES['music']['name'], PATHINFO_EXTENSION));
-                if ($ext === '') {
-                    $mimeToExt = [
-                        'audio/mpeg' => 'mp3',
-                        'audio/mp4'  => 'm4a',
-                        'audio/wav'  => 'wav',
-                        'audio/x-wav'=> 'wav',
-                        'audio/aac'  => 'aac',
-                        'audio/ogg'  => 'ogg',
-                        'application/ogg' => 'ogg',
-                        'audio/webm' => 'webm'
-                    ];
-                    $ext = $mimeToExt[$mime] ?? 'audio';
-                }
-
-                // zapisujemy w temp obok zdjęć
-                $audioFileName = 'music_' . time() . '.' . $ext;
-                $audioPath = $uploaddir . $audioFileName;
-
-                if (!move_uploaded_file($_FILES['music']['tmp_name'], $audioPath)) {
-                    throw new Exception("Nie udało się zapisać pliku muzycznego na serwerze.", 500);
-                }
-            }
-
-
             // Python - Generowanie wideo
             $timestamp = time();
             $videoName = 'reel_' . $timestamp . '.mp4';
@@ -163,6 +102,7 @@ class CreatorController extends AppController {
             // Ścieżki relatywne do bazy danych
             $dbVideoPath = 'media/' . $username . '/' . $videoName;
             $dbThumbPath = 'media/' . $username . '/' . $thumbName;
+
             
             // Generowanie miniatury z pierwszego zdjęcia
             $firstImage = $uploaddir . 'img_000.jpg';
@@ -176,21 +116,8 @@ class CreatorController extends AppController {
 
             $pythonScript = __DIR__ . '/../services/video_maker.py';
             
-            $args = [
-                "python3",
-                escapeshellarg($pythonScript),
-                escapeshellarg($uploaddir),
-                escapeshellarg($fullVideoPath),
-                escapeshellarg($fullThumbPath)
-            ];
-
-            if ($audioPath !== null) {
-                $args[] = escapeshellarg($audioPath);
-            }
-
-            $command = implode(' ', $args) . " 2>&1";
+            $command = "python3 " . escapeshellarg($pythonScript) . " " . escapeshellarg($uploaddir) . " " . escapeshellarg($fullVideoPath) . " " . escapeshellarg($fullThumbPath) . " 2>&1";
             $pythonOutput = shell_exec($command);
-
 
             if (!file_exists($fullVideoPath)) {
                 throw new Exception("Skrypt Python nie wygenerował pliku. Output: " . $pythonOutput, 500);
@@ -207,14 +134,12 @@ class CreatorController extends AppController {
             ob_clean();
             http_response_code(200);
             echo json_encode([
-            'status' => 'success',
-            'videoPath' => $dbVideoPath,
-            'thumbnailPath' => $finalThumbDbPath,
-            'pythonOutput' => $pythonOutput,
-            'audioProvided' => $audioPath !== null
+                'status' => 'success', 
+                'videoPath' => $dbVideoPath,
+                'thumbnailPath' => $finalThumbDbPath
             ]);
+
         } catch (Exception $e) {
-            // Błąd - czysty JSON + kod HTTP
             ob_clean();
             
             $code = $e->getCode();

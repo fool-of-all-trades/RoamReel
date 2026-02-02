@@ -27,6 +27,8 @@ class ProfileController extends AppController {
         }
         
         if (!isset($_SESSION['user_id'])) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Unauthorized']);
 
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/login");
@@ -69,6 +71,7 @@ class ProfileController extends AppController {
 
         try {
             if (!isset($_SESSION['user_id'])) {
+                
                 throw new Exception('Nie jesteś zalogowany.');
             }
 

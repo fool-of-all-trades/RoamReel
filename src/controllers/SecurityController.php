@@ -96,7 +96,7 @@ class SecurityController extends AppController {
         $_SESSION['role'] = $userRow['role'];
 
         error_log("zalogowano $email");
-
+        
         if ($userRow['role'] === 1) { //admin
             $url = "http://$_SERVER[HTTP_HOST]";
             header("Location: {$url}/adminPanel");
@@ -161,7 +161,7 @@ class SecurityController extends AppController {
         }
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return $this->render('register', ['message' => 'Invalid email format']);
+            return $this->render('register', ['messages' => 'Invalid email format']);
         }
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
