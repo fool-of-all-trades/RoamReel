@@ -7,11 +7,8 @@ h1 {
 }
 
 body {
-    display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    background-color: #292654;
     min-height: 100vh;
 }
 

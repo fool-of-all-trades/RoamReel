@@ -1,90 +1,104 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box; 
 }
 
 body {
-  font-family: "Montserrat", Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
-  background-color: #292654;
-  display: flex;
-  flex-direction: column;
+    font-family: 'Montserrat', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #292654;
+    display: flex;
+    flex-direction: column;
 }
 
 .message {
-  color: rgb(255, 78, 78);
-  font-size: 1rem;
-  text-align: center;
-  margin-bottom: 0.5rem;
+    color: rgb(255, 78, 78);
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
 }
 
 .side-panel {
-  background-color: rgb(224, 224, 224);
-  width: 6vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  flex-direction: column;
-  gap: 20vh;
-  position: absolute;
-  right: 0;
-  top: 0;
+    background-color:  rgb(224, 224, 224);
+    width: 6vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 20vh;
+    position: absolute;
+    right: 0;
+    top: 0;
 }
 
 .dashboard {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
 }
 
 .buttons {
-  cursor: pointer;
-  fill: #333333;
-  width: 5vw;
+    cursor: pointer;
+    fill: #333333;
+    width: 5vw;
 }
 
 .buttons:hover {
-  filter: drop-shadow(0 0 5px #adadad);
-  transform: scale(1.1);
+    filter: drop-shadow(0 0 5px #adadad);
+    transform: scale(1.1);
 }
 
 button {
-  background: none;
-  border: none;
-  outline: none;
-  padding: 0.5rem;
-  display: flex;
+  background: none;     
+  border: none;        
+  outline: none;             
+  padding: 0.5rem;       
+  display: flex;         
   justify-content: center;
   align-items: center;
 }
 
-.share-btn {
-  margin-top: 10px;
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: #6f55ff;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
+.trip-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6); 
+    color: #fff;
+    font-size: 0.8rem;    
+    text-align: center;
+    padding: 5px 0;
+    font-family: 'Montserrat', sans-serif;
 }
 
-.share-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.trip-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.share-status {
-  margin-top: 6px;
-  font-family: "Montserrat", sans-serif;
-  font-size: 0.9rem;
-  color: #d30000;
+.trip-card:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s;
+    cursor: pointer;
+}
+
+
+.trip-card {
+    position: relative;
+    width: 30vw;
+    height: 30vw;
+    max-width: 150px;
+    max-height: 250px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 @media screen and (max-width: 800px) {

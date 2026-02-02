@@ -4,7 +4,6 @@
     padding-bottom: 2rem;
 }
 
-
 .card {
     background-color: rgb(224, 224, 224); 
     border: none;
@@ -119,6 +118,19 @@
     transform: scale(1.05);
 }
 
+.chart-card {
+    margin-bottom: 3rem; 
+}
+
+.chart-wrapper {
+    position: relative;
+    margin: 0 auto; 
+    width: 100%;
+    max-width: 500px; 
+    height: auto;
+    padding: 1rem;
+}
+
 @media screen and (max-width: 800px) {
     .card-body {
         padding: 0.5rem;
@@ -127,5 +139,9 @@
     
     .table td, .table th {
         white-space: nowrap; 
+    }
+
+        .chart-wrapper {
+        max-width: 100%;
     }
 }
