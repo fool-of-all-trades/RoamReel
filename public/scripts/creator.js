@@ -1,217 +1,161 @@
-const dropZone = document.getElementById("drop-zone");
-const fileInput = document.getElementById("file-input");
-const statusText = document.querySelector("#bottom-panel p");
-const uploadIcon = document.getElementById("upload-icon");
-const generateBtn = document.querySelector(".btn-generate");
-const creatingPanel = document.getElementById("creating-panel");
-const bottomPanel = document.getElementById("bottom-panel");
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+const statusText = document.querySelector('#bottom-panel p'); 
+const uploadIcon = document.getElementById('upload-icon');
+const generateBtn = document.querySelector('.btn-generate');
+const creatingPanel = document.getElementById('creating-panel');
+const bottomPanel = document.getElementById('bottom-panel');
 
-const musicInput = document.getElementById("music-input");
-const musicPreview = document.getElementById("music-preview");
-const musicFilename = document.getElementById("music-filename");
-const removeMusicBtn = document.getElementById("remove-music");
-
-let uploadedFiles = [];
-
-let selectedMusic = null;
+let uploadedFiles = []; 
 
 function displayMessage(text) {
-  let msgElement = document.querySelector(".message");
+    let msgElement = document.querySelector('.message');
 
-  if (!msgElement) {
-    msgElement = document.createElement("p");
-    msgElement.classList.add("message");
-    bottomPanel.insertBefore(msgElement, generateBtn);
-  }
+    if (!msgElement) {
+        msgElement = document.createElement('p');
+        msgElement.classList.add('message');
+        bottomPanel.insertBefore(msgElement, generateBtn);
+    }
 
-  msgElement.innerText = text;
+    msgElement.innerText = text;
 }
 
-dropZone.addEventListener("click", (e) => {
-  if (e.target.classList.contains("remove-btn")) {
-    return;
-  }
-  fileInput.click();
-});
-
-fileInput.addEventListener("change", () => {
-  handleFiles(fileInput.files);
-  fileInput.value = "";
-});
-
-dropZone.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  dropZone.classList.add("dragover");
-});
-
-dropZone.addEventListener("dragleave", () => {
-  dropZone.classList.remove("dragover");
-});
-
-dropZone.addEventListener("drop", (e) => {
-  e.preventDefault();
-  dropZone.classList.remove("dragover");
-  handleFiles(e.dataTransfer.files);
-});
-
-function handleMusicSelection() {
-  if (musicInput) {
-    musicInput.addEventListener("change", () => {
-      const file = musicInput.files?.[0];
-      if (!file) return;
-
-      if (!file.type.startsWith("audio/")) {
-        displayMessage("Please choose an audio file (mp3/wav/m4a/...).");
-        musicInput.value = "";
+dropZone.addEventListener('click', (e) => {
+    if (e.target.classList.contains('remove-btn')) {
         return;
-      }
+    }
+    fileInput.click();
+});
 
-      // (optional) 20MB limit
-      const MAX_MB = 20;
-      if (file.size > MAX_MB * 1024 * 1024) {
-        displayMessage(`Music file is too large (max ${MAX_MB}MB).`);
-        musicInput.value = "";
-        return;
-      }
+fileInput.addEventListener('change', () => {
+    handleFiles(fileInput.files);
+    fileInput.value = ''; 
+});
 
-      selectedMusic = file;
-      if (musicFilename) musicFilename.innerText = file.name;
-      if (musicPreview) musicPreview.style.display = "block";
-    });
-  }
+dropZone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+});
 
-  if (removeMusicBtn) {
-    removeMusicBtn.addEventListener("click", () => {
-      selectedMusic = null;
-      if (musicInput) musicInput.value = "";
-      if (musicPreview) musicPreview.style.display = "none";
-    });
-  }
-}
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('dragover');
+});
 
-document.addEventListener("DOMContentLoaded", () => {
-  handleMusicSelection();
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
 });
 
 function handleFiles(files) {
-  const newFiles = Array.from(files);
+    const newFiles = Array.from(files);
 
-  if (uploadedFiles.length + newFiles.length > 30) {
-    displayMessage("You can upload up to 30 photos!");
-    return;
-  }
+    if (uploadedFiles.length + newFiles.length > 30) {
+        displayMessage("You can upload up to 30 photos!");
+        return;
+    }
+    
+    displayMessage(""); 
 
-  displayMessage("");
+    newFiles.forEach(file => {
+        if (!file.type.startsWith('image/')) return;
 
-  newFiles.forEach((file) => {
-    if (!file.type.startsWith("image/")) return;
+        uploadedFiles.push(file);
 
-    uploadedFiles.push(file);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const container = document.createElement('div');
+            container.classList.add('image-preview-container');
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const container = document.createElement("div");
-      container.classList.add("image-preview-container");
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.classList.add('photo-preview');
 
-      const img = document.createElement("img");
-      img.src = e.target.result;
-      img.classList.add("photo-preview");
+            const removeBtn = document.createElement('button');
+            removeBtn.innerHTML = '&times;';
+            removeBtn.classList.add('remove-btn');
 
-      const removeBtn = document.createElement("button");
-      removeBtn.innerHTML = "&times;";
-      removeBtn.classList.add("remove-btn");
+            removeBtn.onclick = (evt) => {
+                evt.stopPropagation(); 
+                uploadedFiles = uploadedFiles.filter(f => f !== file);
+                container.remove();
+                updateStatusText();
+                if (uploadedFiles.length === 0 && uploadIcon) {
+                    uploadIcon.style.display = 'block';
+                }
+            };
 
-      removeBtn.onclick = (evt) => {
-        evt.stopPropagation();
-        uploadedFiles = uploadedFiles.filter((f) => f !== file);
-        container.remove();
-        updateStatusText();
-        if (uploadedFiles.length === 0 && uploadIcon) {
-          uploadIcon.style.display = "block";
-        }
-      };
+            container.appendChild(img);
+            container.appendChild(removeBtn);
 
-      container.appendChild(img);
-      container.appendChild(removeBtn);
+            if (uploadIcon) uploadIcon.style.display = 'none';
+            dropZone.appendChild(container);
+        };
+        reader.readAsDataURL(file);
+    });
 
-      if (uploadIcon) uploadIcon.style.display = "none";
-      dropZone.appendChild(container);
-    };
-    reader.readAsDataURL(file);
-  });
-
-  updateStatusText();
+    updateStatusText();
 }
 
 function updateStatusText() {
-  if (statusText) {
-    statusText.innerText = `Photos uploaded: ${uploadedFiles.length}/30`;
-  }
+    if(statusText) {
+        statusText.innerText = `Photos uploaded: ${uploadedFiles.length}/30`;
+    }
 }
 
-generateBtn.addEventListener("click", async () => {
-  displayMessage("");
 
-  if (uploadedFiles.length === 0) {
-    displayMessage("Upload at least one photo before generating the reel!");
-    return;
-  }
+generateBtn.addEventListener('click', async () => {
+    displayMessage("");
 
-  const formData = new FormData();
+    if (uploadedFiles.length === 0) {
+        displayMessage("Upload at least one photo before generating the reel!");
+        return;
+    }
 
-  const country = document.getElementById("country-select").value;
-  const date = document.getElementById("date-select").value;
+    const formData = new FormData();
+    
+    const country = document.getElementById('country-select').value;
+    const date = document.getElementById('date-select').value;
+    
+    formData.append('country', country);
+    formData.append('date-select', date);
 
-  formData.append("country", country);
-  formData.append("date-select", date);
-
-  uploadedFiles.forEach((file) => {
-    formData.append("photos[]", file);
-  });
-
-  const musicFile = musicInput?.files?.[0] || selectedMusic;
-  if (musicFile) {
-    formData.append("music", musicFile);
-  }
-
-  generateBtn.innerText = "Generating...";
-  generateBtn.disabled = true;
-
-  console.log("selectedMusic:", selectedMusic);
-
-  for (const [k, v] of formData.entries()) {
-    console.log("FD:", k, v);
-  }
-
-  try {
-    const response = await fetch("/generateReel", {
-      method: "POST",
-      body: formData,
+    uploadedFiles.forEach(file => {
+        formData.append('photos[]', file);
     });
 
-    const rawResponse = await response.text();
-    console.log("Response:", rawResponse);
+    generateBtn.innerText = "Generating...";
+    generateBtn.disabled = true;
 
-    let result;
     try {
-      result = JSON.parse(rawResponse);
-    } catch (e) {
-      result = { status: "error", message: "Błąd serwera (JSON)" };
-    }
+        const response = await fetch('/generateReel', {
+            method: 'POST',
+            body: formData
+        });
 
-    if (response.ok && result.status === "success") {
-      displayMessage("Success! Redirecting...");
-      setTimeout(() => {
-        window.location.href = "/dashboard";
-      }, 2000);
-    } else {
-      displayMessage(result?.message || "Error generating reel.");
-      generateBtn.innerText = "Generate Reel";
-      generateBtn.disabled = false;
+        const rawResponse = await response.text();
+        console.log("Response:", rawResponse);
+
+        let result;
+        try {
+            result = JSON.parse(rawResponse);
+        } catch (e) {
+            result = { status: 'error', message: 'Błąd serwera (JSON)' };
+        }
+
+        if (response.ok && result.status === 'success') {
+            displayMessage("Success! Redirecting...");
+            setTimeout(() => {
+                window.location.href = '/dashboard'; 
+            }, 2000);
+        } else {
+            displayMessage("Error");
+            generateBtn.innerText = "Generate Reel";
+            generateBtn.disabled = false;
+        }
+    } catch (error) {
+        displayMessage("Connection error!");
+        generateBtn.innerText = "Generate Reel";
+        generateBtn.disabled = false;
     }
-  } catch (error) {
-    displayMessage("Connection error!");
-    generateBtn.innerText = "Generate Reel";
-    generateBtn.disabled = false;
-  }
 });
